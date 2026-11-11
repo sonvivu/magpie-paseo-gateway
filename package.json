@@ -1,0 +1,48 @@
+{
+  "bugs": {
+    "url": "https://github.com/sonvivu/magpie-paseo-gateway/issues"
+  },
+  "description": "Point Paseo's Claude Code and Codex providers at the local Magpie gateway, with Magpie's routing groups as their models.",
+  "engines": {
+    "node": ">=20"
+  },
+  "files": [
+    "paseo.agent.js",
+    "icon.svg",
+    "README.md",
+    "README.zh-CN.md"
+  ],
+  "homepage": "https://github.com/sonvivu/magpie-paseo-gateway#readme",
+  "keywords": [
+    "magpie",
+    "magpie-plugin",
+    "magpie-agent",
+    "paseo",
+    "gateway"
+  ],
+  "license": "MIT",
+  "magpie": {
+    "agent": "./paseo.agent.js",
+    "icon": "https://raw.githubusercontent.com/sonvivu/magpie-paseo-gateway/main/icon.svg",
+    "name": "Paseo",
+    "summary": {
+      "en": "Route Paseo's Claude and Codex through Magpie's gateway, picking from your routing groups.",
+      "zh": "将 Paseo 的 Claude 与 Codex 接入 Magpie 网关，从路由分组中选择模型。"
+    }
+  },
+  "name": "magpie-paseo-gateway",
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sonvivu/magpie-paseo-gateway.git"
+  },
+  "scripts": {
+    "check": "node --check paseo.agent.js && npm test",
+    "test": "node --test test/paseo.agent.test.js"
+  },
+  "type": "module",
+  "version": "1.0.0"
+}
