@@ -24,7 +24,7 @@
   "magpie": {
     "agent": "./paseo.agent.js",
     "icon": "https://raw.githubusercontent.com/sonvivu/magpie-paseo-gateway/main/icon.svg",
-    "name": "Paseo",
+    "name": "Paseo Gateway",
     "summary": {
       "en": "Route Paseo's Claude and Codex through Magpie's gateway, picking from your routing groups.",
       "zh": "将 Paseo 的 Claude 与 Codex 接入 Magpie 网关，从路由分组中选择模型。"
@@ -44,5 +44,5 @@
     "test": "node --test test/paseo.agent.test.js"
   },
   "type": "module",
-  "version": "1.0.0"
+  "version": "1.0.1"
 }

@@ -1,4 +1,9 @@
-// Magpie Agent plugin for Paseo (v1.0.0).
+// Magpie Agent plugin for Paseo (v1.0.1).
+//
+// Magpie now ships its own Paseo agent (id "paseo", alias "getpaseo"),
+// so this plugin must NOT use that id: Magpie drops any plugin agent
+// whose id is a built-in's ("agent id "paseo" is magpie's own agent's").
+// This plugin's id is "paseo-gateway" and it shows as "Paseo Gateway".
 //
 // Paseo is an orchestrator, not a coding agent: it launches Claude Code,
 // Codex, OpenCode and friends, each speaking its own protocol. This
@@ -113,8 +118,8 @@ function toPaseoGroupModels(groups) {
 }
 
 export const agent = {
-  id: "paseo",
-  name: "Paseo",
+  id: "paseo-gateway",
+  name: "Paseo Gateway",
   icon: PASEO_ICON,
   bin: "paseo",
   config: "~/.paseo/config.json",

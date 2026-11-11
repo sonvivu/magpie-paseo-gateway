@@ -80,6 +80,14 @@ Then start a session in Paseo with the Claude or Codex provider and pick one of 
 - **Model Mapping**: Only routing groups are published, the same list for both providers, first group as the default. Groups carry no thinking options — a group fans out to several models.
 - **Leaf Keys Only**: The plugin writes `env` vars and `models` lists, never whole provider objects, so a provider's `command` and other settings are untouched. OpenCode, Copilot, Pi and Antigravity are left alone.
 
+## Magpie's own Paseo agent vs this plugin
+
+Magpie now ships a built-in Paseo agent too. It only adds Magpie's individual models to Claude's `additionalModels` in `~/.paseo/config.json` — it does not set any base URL, does not touch Codex, and does not use routing groups. It also needs Claude Code itself connected to Magpie for those model ids to be served.
+
+This plugin does the other half: it points Claude and Codex at the gateway and publishes routing groups as their models. The two do not write the same keys (`additionalModels` vs `env` + `models`), so they can both stay enabled — Claude's picker then shows the groups and the individual models. Disable Magpie's own Paseo agent if you want a groups-only picker.
+
+Because the built-in agent owns the id `paseo`, this plugin's agent id is `paseo-gateway` and it shows on the Agents page as **Paseo Gateway**. Version 1.0.0 used the id `paseo` and Magpie refused to load it (`agent id "paseo" is magpie's own agent's`).
+
 ## Why OpenCode is not wired
 
 An earlier version tried to wire OpenCode via `OPENCODE_CONFIG_CONTENT`, but OpenCode 2.0 runs one shared background service per user and Paseo reuses it — and Paseo rejects per-agent process environment overrides on a reused server, by design: *"Custom OpenCode MCP servers or process environment require an isolated server and cannot be used with a shared OpenCode service"* (Paseo's `docs/custom-providers.md`, "OpenCode with an existing v2 server"). A Paseo-owned helper would accept the override, but it is only selected when there is no healthy registered service, i.e. only by disabling the shared service machine-wide (`opencode service set disabled true`), which would change how OpenCode behaves outside Paseo too. So the plugin does not touch OpenCode; use Claude or Codex in Paseo for Magpie, or add `magpie-gateway` to the shared OpenCode server's own `opencode.json` by hand.

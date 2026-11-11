@@ -80,6 +80,14 @@ paseo reload
 - **模型映射**：只发布路由组，两个提供商共用同一份列表，每家默认第一个组。路由组不带思考档位。
 - **只写叶子键**：插件只写 `env` 变量和 `models` 列表，不写整个提供商对象，因此提供商的 `command` 等设置不受影响。OpenCode、Copilot、Pi、Antigravity 不动。
 
+## Magpie 自带的 Paseo 与本插件的区别
+
+Magpie 现在也自带 Paseo agent，但它只把 Magpie 的单个模型加进 Claude 的 `additionalModels`（`~/.paseo/config.json`），不设 base URL、不碰 Codex、不用路由组，而且那些模型 id 要 Claude Code 本身接了 Magpie 才能用。
+
+本插件做的是另一半：把 Claude 和 Codex 指向网关，用路由组做它们的模型。两者写的键不一样（`additionalModels` 对 `env` + `models`），所以可以同时开着——Claude 选择器里既有分组也有单个模型。只想要分组的话，把 Magpie 自带的 Paseo 关掉就行。
+
+因为自带 agent 占了 `paseo` 这个 id，本插件的 agent id 是 `paseo-gateway`，在 Agents 页显示为 **Paseo Gateway**。1.0.0 用的是 `paseo`，Magpie 拒绝加载（`agent id "paseo" is magpie's own agent's`）。
+
 ## 为什么不接 OpenCode
 
 早期版本曾用 `OPENCODE_CONFIG_CONTENT` 接 OpenCode，但 OpenCode 2.0 每个用户只跑一个共享后台服务，Paseo 会复用它——而 Paseo 明确拒绝在复用的服务上用每个 agent 的进程环境覆盖（"Custom OpenCode MCP servers or process environment require an isolated server and cannot be used with a shared OpenCode service"，见 Paseo `docs/custom-providers.md` "OpenCode with an existing v2 server"）。Paseo 自己的 helper 倒是接受这种覆盖，但只有在没有健康已注册服务时才会选用，也就是要全机器禁用共享服务（`opencode service set disabled true`），会影响 Paseo 之外的 OpenCode 使用。所以插件不碰 OpenCode；想在 Paseo 里用 Magpie 就用 Claude 或 Codex，或者手工把 `magpie-gateway` 加进共享 OpenCode 服务自己的 `opencode.json`。

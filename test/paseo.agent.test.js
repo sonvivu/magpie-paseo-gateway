@@ -33,7 +33,7 @@ describe("package.json display fields", () => {
     const pkg = JSON.parse(
       readFileSync(new URL("../package.json", import.meta.url), "utf-8"),
     )
-    assert.equal(pkg.magpie.name, "Paseo")
+    assert.equal(pkg.magpie.name, "Paseo Gateway")
     assert.match(pkg.magpie.icon, /^https:\/\//)
     assert.equal(typeof pkg.magpie.summary.en, "string")
     assert.ok(pkg.magpie.summary.en.length > 0)
@@ -44,7 +44,11 @@ describe("package.json display fields", () => {
 
 describe("agent descriptor", () => {
   it("exports the Magpie agent shape", () => {
-    assert.equal(agent.id, "paseo")
+    assert.equal(agent.id, "paseo-gateway")
+    // Magpie ships its own Paseo agent (id "paseo", alias "getpaseo")
+    // and drops any plugin agent whose id is a built-in's, so this
+    // plugin's id must stay off both.
+    assert.ok(!["paseo", "getpaseo"].includes(agent.id))
     assert.equal(agent.bin, "paseo")
     assert.equal(agent.config, "~/.paseo/config.json")
     assert.equal(agent.format, "json")
